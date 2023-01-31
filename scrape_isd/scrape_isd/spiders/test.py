@@ -9,7 +9,7 @@ class TestSpider(scrapy.Spider):
 
     def start_requests(self):
         self.list = []
-        self.file_name = "isd_data.xlsx"
+        self.file_name = "isd_data.csv"
 
         link = 'https://isd110.org/our-schools/laketown-elementary/staff-directory'
         yield scrapy.FormRequest(url=link,callback=self.parse,dont_filter=True)
@@ -101,7 +101,7 @@ class TestSpider(scrapy.Spider):
                 yield scrapy.FormRequest(url=next_page,dont_filter=True,callback=self.parse)
             else:
                 df = pd.DataFrame(self.list)
-                df.to_csv('test.csv')
+                df.to_csv(self.file_name)
         except Exception as e:
             print(e)
 
