@@ -2,7 +2,7 @@ import scrapy
 from scrapy.cmdline import execute
 import pandas as pd
 import xlsxwriter
-
+import csv
 class TestSpider(scrapy.Spider):
     name = 'test'
     allowed_domains = ['quotes.toscrape.com']
@@ -101,9 +101,7 @@ class TestSpider(scrapy.Spider):
                 yield scrapy.FormRequest(url=next_page,dont_filter=True,callback=self.parse)
             else:
                 df = pd.DataFrame(self.list)
-                writer = pd.ExcelWriter(self.file_name, engine='xlsxwriter')
-                df.to_excel(writer, sheet_name='welcome', index=False)
-                writer.save()
+                df.to_csv('test.csv')
         except Exception as e:
             print(e)
 
